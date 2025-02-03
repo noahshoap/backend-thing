@@ -22,7 +22,7 @@ public class GetBlogsCommand : ICommand
  
       if (_authorFilter is not null)
       {
-        posts = posts.Where(p => p.Author.Equals(_authorFilter));
+        posts = posts.Where(p => p.Author.Contains(_authorFilter));
       }
 
       if (_titleFilter is not null)
