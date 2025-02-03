@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Mvc;
+
 public static class BlogRoutes
 {
   public static WebApplication MapBlogRoutes(this WebApplication app)
   {
-    app.MapGet("/blogTitles", GetBlogTitleCollection);
+    app.MapGet("/blogs", GetBlogCollection);
     return app;
   }
 
-  private static IResult GetBlogTitleCollection(IBlogs blogs)
+  private static async Task<IResult> GetBlogCollection(
+    BlogDbContext blogDbContext)
   {
-    var blogTitles = blogs.GetBlogs();
+    var command = new GetBlogsCommand(blogDbContext);
 
-    return Results.Ok(blogTitles);
+    return await command.Execute();
   }
 }
