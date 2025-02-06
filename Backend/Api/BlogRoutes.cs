@@ -6,6 +6,7 @@ public static class BlogRoutes
   {
     app.MapGet("/blogs", GetBlogCollection);
     app.MapGet("/blog/{id}", GetBlog);
+    app.MapPost("/blog", CreateBlog);
     return app;
   }
 
@@ -24,6 +25,15 @@ public static class BlogRoutes
     [FromRoute] uint id)
   {
     var command = new GetBlogCommand(blogDbContext, id);
+
+    return await command.Execute();
+  }
+
+  private static async Task<IResult> CreateBlog(
+    BlogDbContext blogDbContext,
+    [FromBody] Post newPost)
+  {
+    var command = new CreateBlogCommand(blogDbContext, newPost);
 
     return await command.Execute();
   }
